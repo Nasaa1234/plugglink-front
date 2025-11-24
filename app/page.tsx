@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
-import { Button } from "@/components/Button"
+import { Button } from "@/components/ui/Button"
 import { ArrowRight, Users, Briefcase, TrendingUp } from "lucide-react"
 import Image from "next/image"
 

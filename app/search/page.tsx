@@ -5,10 +5,10 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { Header } from "@/components/Header"
 import { PostCard } from "@/components/PostCard"
 import { MOCK_POSTS, MOCK_USERS } from "@/data/mockData"
-import { Card, CardContent } from "@/components/Card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/Tabs"
+import { Card, CardContent } from "@/components/ui/Card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs"
 import { User } from "lucide-react"
-import { Button } from "@/components/Button"
+import { Button } from "@/components/ui/Button"
 
 const Search = () => {
   const searchParams = useSearchParams()

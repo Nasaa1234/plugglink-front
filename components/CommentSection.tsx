@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Comment } from "@/data/mockData"
-import { Button } from "@/components/Button"
-import { Textarea } from "@/components/Textarea"
+import { Button } from "@/components/ui/Button"
+import { Textarea } from "@/components/ui/Textarea"
 import { User } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
 

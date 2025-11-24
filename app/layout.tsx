@@ -2,10 +2,10 @@ import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/lib/Providers"
-import { TooltipProvider } from "@/components/Tooltip"
+import { TooltipProvider } from "@/components/ui/Tooltip"
 import { AuthProvider } from "@/context/AuthContext"
-import { Toaster } from "@/components/Toaster"
-import { Toaster as Sonner } from "@/components/Sonner"
+import { Toaster } from "@/components/ui/Toaster"
+import { Toaster as Sonner } from "@/components/ui/Sonner"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

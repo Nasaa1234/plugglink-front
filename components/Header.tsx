@@ -5,14 +5,14 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Search, User, LogOut, Menu, X } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
-import { Button } from "./Button"
-import { Input } from "./Input"
+import { Button } from "./ui/Button"
+import { Input } from "./ui/Input"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./DropdownMenu"
+} from "./ui/DropdownMenu"
 import Image from "next/image"
 
 export const Header = () => {

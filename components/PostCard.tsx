@@ -1,15 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Heart, MessageCircle, User, Briefcase } from "lucide-react"
-import { Card, CardContent, CardHeader } from "@/components/Card"
-import { Badge } from "@/components/Badge"
-import { Button } from "@/components/Button"
+import { Card, CardContent, CardHeader } from "@/components/ui/Card"
+import { Badge } from "@/components/ui/Badge"
+import { Button } from "@/components/ui/Button"
 import { Post, Comment } from "@/data/mockData"
 import { CommentSection } from "./CommentSection"
 import { useAuth } from "@/context/AuthContext"
 import { useToast } from "@/hooks/useToast"
+import { Skeleton } from "./ui/Skeleton"
 
 interface PostCardProps {
   post: Post
@@ -19,9 +20,12 @@ interface PostCardProps {
 export const PostCard = ({ post, onUpdate }: PostCardProps) => {
   const { user } = useAuth()
   const { toast } = useToast()
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
   const [localPost, setLocalPost] = useState(post)
-
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   const timeAgo = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -32,7 +36,7 @@ export const PostCard = ({ post, onUpdate }: PostCardProps) => {
     if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`
     return `${Math.floor(seconds / 86400)}d ago`
   }
-
+  if (!mounted) return <Skeleton />
   const handleAddComment = (text: string) => {
     if (!user) return
 

@@ -3,8 +3,8 @@ import { useState } from "react"
 import { Header } from "@/components/Header"
 import { PostCard } from "@/components/PostCard"
 import { MOCK_POSTS, ROLES } from "@/data/mockData"
-import { Badge } from "@/components/Badge"
-import { Button } from "@/components/Button"
+import { Badge } from "@/components/ui/Badge"
+import { Button } from "@/components/ui/Button"
 
 const Feed = () => {
   const [selectedRoles, setSelectedRoles] = useState<string[]>([])
