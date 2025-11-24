@@ -1,28 +1,33 @@
 "use client"
 
 import { useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
 import { Button } from "@/components/ui/Button"
 import { ArrowRight, Users, Briefcase, TrendingUp } from "lucide-react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 import Image from "next/image"
 
-const IndexPage = () => {
+const Index = () => {
   const { user } = useAuth()
   const router = useRouter()
 
-  useEffect(() => {
-    // if (user) {
-    //   router.replace("/feed") // replace avoids keeping this page in history
-    // }
-  }, [user, router])
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push("/feed")
+  //   }
+  // }, [user])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
       <header className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Image src="/logo.svg" alt="Logo" width={96} height={32} />
+            <span className="font-bold text-xl">
+              <Link href="/" className="flex items-center space-x-2">
+                <Image src="/logo.svg" alt="Logo" width={96} height={32} />
+              </Link>
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" onClick={() => router.push("/login")}>
@@ -83,8 +88,22 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
+
+      <section className="container mx-auto px-4 py-20 border-t">
+        <div className="text-center max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4">About PluggLink</h2>
+          <p className="text-muted-foreground mb-6">
+            PluggLink is a professional networking platform designed to bridge
+            the gap between students and professionals. We believe in meaningful
+            connections that drive career growth and learning opportunities.
+          </p>
+          <Button variant="outline" onClick={() => router.push("/about")}>
+            Learn More About Us
+          </Button>
+        </div>
+      </section>
     </div>
   )
 }
 
-export default IndexPage
+export default Index

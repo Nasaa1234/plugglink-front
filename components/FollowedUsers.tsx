@@ -3,21 +3,24 @@
 import { useAuth } from "@/context/AuthContext"
 import { MOCK_USERS } from "@/data/mockData"
 import { getDefaultAvatar } from "@/data/avatars"
-import { User } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { useEffect, useState } from "react"
 
 export const FollowedUsers = () => {
   const { user } = useAuth()
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
 
-  const followedUsers = MOCK_USERS.filter((u) =>
-    user?.following?.includes(u.id)
-  )
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
-  if (followedUsers.length === 0) {
-    return null
-  }
+  if (!mounted || !user) return null
+
+  const followedUsers = MOCK_USERS.filter((u) => user.following?.includes(u.id))
+
+  if (followedUsers.length === 0) return null
 
   return (
     <div className="bg-card rounded-lg p-4 border">
@@ -31,7 +34,7 @@ export const FollowedUsers = () => {
           >
             <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
               {followedUser.avatar ? (
-                <Image
+                <img
                   src={followedUser.avatar}
                   alt={followedUser.name}
                   className="h-8 w-8 rounded-full"

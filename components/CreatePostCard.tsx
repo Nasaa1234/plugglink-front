@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/Button"
 import { useAuth } from "@/context/AuthContext"
 import { getDefaultAvatar } from "@/data/avatars"
 import { PenSquare } from "lucide-react"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -27,7 +26,7 @@ export const CreatePostCard = () => {
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
             {user?.avatar ? (
-              <Image
+              <img
                 src={user.avatar}
                 alt={user.name}
                 className="h-10 w-10 rounded-full"

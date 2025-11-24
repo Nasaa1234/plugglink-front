@@ -1,16 +1,13 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { Heart, MessageCircle, User, Briefcase } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/Card"
 import { Badge } from "@/components/ui/Badge"
 import { Button } from "@/components/ui/Button"
 import { Post, Comment } from "@/data/mockData"
-import { CommentSection } from "./CommentSection"
 import { useAuth } from "@/context/AuthContext"
 import { useToast } from "@/hooks/useToast"
-import { Skeleton } from "./ui/Skeleton"
+import { getDefaultAvatar } from "@/data/avatars"
+import { useRouter } from "next/navigation"
 
 interface PostCardProps {
   post: Post
@@ -20,12 +17,9 @@ interface PostCardProps {
 export const PostCard = ({ post, onUpdate }: PostCardProps) => {
   const { user } = useAuth()
   const { toast } = useToast()
-  const [mounted, setMounted] = useState(false)
-  const router = useRouter()
   const [localPost, setLocalPost] = useState(post)
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const router = useRouter()
+
   const timeAgo = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -36,7 +30,7 @@ export const PostCard = ({ post, onUpdate }: PostCardProps) => {
     if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`
     return `${Math.floor(seconds / 86400)}d ago`
   }
-  if (!mounted) return <Skeleton />
+
   const handleAddComment = (text: string) => {
     if (!user) return
 
@@ -102,15 +96,31 @@ export const PostCard = ({ post, onUpdate }: PostCardProps) => {
     user && localPost.requests.some((r) => r.userId === user.id)
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
+    <Card
+      className="hover:shadow-md transition-shadow cursor-pointer"
+      onClick={() => router.push(`/post/${localPost.id}`)}
+    >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div
-            className="flex items-center gap-3 cursor-pointer"
-            onClick={() => router.push(`/user/${localPost.authorId}`)}
+            className="flex items-center gap-3"
+            onClick={(e) => {
+              e.stopPropagation()
+              router.push(`/user/${localPost.authorId}`)
+            }}
           >
             <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-              <User className="h-5 w-5 text-primary" />
+              {localPost.authorAvatar ? (
+                <img
+                  src={localPost.authorAvatar}
+                  alt={localPost.authorName}
+                  className="h-10 w-10 rounded-full"
+                />
+              ) : (
+                <span className="text-primary font-semibold">
+                  {getDefaultAvatar(localPost.authorName)}
+                </span>
+              )}
             </div>
             <div>
               <p className="font-semibold hover:underline">
@@ -130,7 +140,9 @@ export const PostCard = ({ post, onUpdate }: PostCardProps) => {
       <CardContent className="space-y-3">
         <div>
           <h3 className="font-semibold text-lg mb-2">{localPost.title}</h3>
-          <p className="text-muted-foreground">{localPost.description}</p>
+          <p className="text-muted-foreground line-clamp-2">
+            {localPost.description}
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -141,33 +153,26 @@ export const PostCard = ({ post, onUpdate }: PostCardProps) => {
           ))}
         </div>
 
-        {!isAuthor && user && userRoleMatchesPost && (
-          <Button
-            variant={hasRequested ? "outline" : "default"}
-            size="sm"
-            onClick={handleRequest}
-            className="w-full"
-          >
-            <Briefcase className="h-4 w-4 mr-2" />
-            {hasRequested ? "Request Sent" : "Request to Work on This"}
-          </Button>
-        )}
-
         <div className="flex items-center gap-4 pt-2 border-t">
-          <Button variant="ghost" size="sm" className="gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-2"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Heart className="h-4 w-4" />
             <span>{localPost.likes}</span>
           </Button>
-          <Button variant="ghost" size="sm" className="gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-2"
+            onClick={(e) => e.stopPropagation()}
+          >
             <MessageCircle className="h-4 w-4" />
-            <span>{localPost.comments.length}</span>
+            <span>{localPost.comments.length} comments</span>
           </Button>
         </div>
-
-        <CommentSection
-          comments={localPost.comments}
-          onAddComment={handleAddComment}
-        />
       </CardContent>
     </Card>
   )

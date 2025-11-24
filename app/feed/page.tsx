@@ -35,7 +35,6 @@ const Feed = () => {
 
       <div className="container mx-auto py-6 px-4">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar */}
           <aside className="lg:col-span-1">
             <div className="sticky top-20 space-y-4">
               <div className="bg-card rounded-lg p-4 border">
@@ -81,7 +80,6 @@ const Feed = () => {
             </div>
           </aside>
 
-          {/* Main Feed */}
           <main className="lg:col-span-3 space-y-4">
             <CreatePostCard />
 

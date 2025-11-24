@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
@@ -14,19 +13,31 @@ import {
   CardTitle,
 } from "@/components/ui/Card"
 import { useToast } from "@/hooks/useToast"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 
-const SignupPage = () => {
+const Signup = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [name, setName] = useState("")
   const [loading, setLoading] = useState(false)
   const { signup } = useAuth()
-  const router = useRouter()
   const { toast } = useToast()
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (password !== confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Passwords do not match.",
+      })
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -35,7 +46,7 @@ const SignupPage = () => {
         title: "Account created!",
         description: "Welcome to ConnectPro.",
       })
-      router.push("/") // navigate to home after signup
+      router.push("/")
     } catch (error) {
       toast({
         variant: "destructive",
@@ -51,7 +62,7 @@ const SignupPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold ">
+          <CardTitle className="text-2xl font-bold">
             Create an account
           </CardTitle>
           <CardDescription>
@@ -92,6 +103,16 @@ const SignupPage = () => {
                 required
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Creating account..." : "Sign Up"}
             </Button>
@@ -109,4 +130,4 @@ const SignupPage = () => {
   )
 }
 
-export default SignupPage
+export default Signup

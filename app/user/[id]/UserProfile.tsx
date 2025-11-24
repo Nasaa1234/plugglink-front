@@ -1,35 +1,31 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { useRouter } from "next/navigation"
-import { Header } from "@/components/Header"
-import { PostCard } from "@/components/PostCard"
+import { useAuth } from "@/context/AuthContext"
 import { MOCK_USERS, MOCK_POSTS } from "@/data/mockData"
 import { Card, CardContent } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { Badge } from "@/components/ui/Badge"
-import { User, Briefcase } from "lucide-react"
-import { useAuth } from "@/context/AuthContext"
+import { Briefcase } from "lucide-react"
+import { useState, useEffect } from "react"
+import { getDefaultAvatar } from "@/data/avatars"
+import { useRouter } from "next/navigation"
+import { PostCard } from "@/components/PostCard"
+import { Header } from "@/components/Header"
 
-interface UserProfileProps {
-  userId: string
-}
-
-const UserProfile = ({ userId }: UserProfileProps) => {
-  const router = useRouter()
+const UserProfile = ({ userId }: { userId: string }) => {
   const { user: currentUser, isFollowing, toggleFollow } = useAuth()
+  const [mounted, setMounted] = useState(false)
   const [posts, setPosts] = useState(MOCK_POSTS)
+  const router = useRouter()
 
-  const profileUser = useMemo(
-    () => MOCK_USERS.find((u) => u.id === userId),
-    [userId]
-  )
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
-  console.log(userId)
-  const userPosts = useMemo(
-    () => posts.filter((post) => post.authorId === userId),
-    [posts, userId]
-  )
+  if (!mounted) return null
+
+  const profileUser = MOCK_USERS.find((u) => u.id === userId)
+  const userPosts = posts.filter((post) => post.authorId === userId)
 
   if (!profileUser) {
     return (
@@ -50,18 +46,29 @@ const UserProfile = ({ userId }: UserProfileProps) => {
   }
 
   const isOwnProfile = currentUser?.id === userId
-  const following = isFollowing(userId)
+  const following = currentUser ? isFollowing(userId) : false
 
   return (
     <div className="min-h-screen bg-muted/30">
       <Header />
+
       <div className="container mx-auto py-6 px-4 max-w-4xl">
         <Card className="mb-6">
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
-                  <User className="h-10 w-10 text-primary" />
+                  {profileUser.avatar ? (
+                    <img
+                      src={profileUser.avatar}
+                      alt={profileUser.name}
+                      className="h-20 w-20 rounded-full"
+                    />
+                  ) : (
+                    <span className="text-primary text-2xl font-semibold">
+                      {getDefaultAvatar(profileUser.name)}
+                    </span>
+                  )}
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold">{profileUser.name}</h1>
@@ -100,7 +107,7 @@ const UserProfile = ({ userId }: UserProfileProps) => {
                 <p className="text-muted-foreground">{profileUser.bio}</p>
               </div>
 
-              {profileUser.skills && profileUser.skills.length > 0 && (
+              {profileUser.skills?.length > 0 && (
                 <div>
                   <h3 className="font-semibold mb-2">Skills</h3>
                   <div className="flex flex-wrap gap-2">

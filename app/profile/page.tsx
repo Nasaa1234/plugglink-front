@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Header } from "@/components/Header"
 import { useAuth } from "@/context/AuthContext"
 import { Button } from "@/components/ui/Button"
@@ -9,24 +9,42 @@ import { Label } from "@/components/ui/Label"
 import { Textarea } from "@/components/ui/Textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
 import { Badge } from "@/components/ui/Badge"
-import { User, Mail, Briefcase, GraduationCap, Plus, X } from "lucide-react"
+import {
+  Mail,
+  Briefcase,
+  GraduationCap,
+  Plus,
+  X,
+  Heart,
+  Languages,
+} from "lucide-react"
 import { useToast } from "@/hooks/useToast"
+import { PRESET_AVATARS, getDefaultAvatar } from "@/data/avatars"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog"
 
 const Profile = () => {
   const { user, updateProfile } = useAuth()
   const { toast } = useToast()
-
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
-
   const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState({
     name: user?.name || "",
     bio: user?.bio || "",
     role: user?.role || "",
+    avatar: user?.avatar || "",
     skills: user?.skills || [],
+    hobbies: user?.hobbies || [],
+    languages: user?.languages || [],
   })
   const [newSkill, setNewSkill] = useState("")
+  const [newHobby, setNewHobby] = useState("")
+  const [newLanguage, setNewLanguage] = useState("")
+  const [showAvatarDialog, setShowAvatarDialog] = useState(false)
 
   const handleSave = () => {
     updateProfile(formData)
@@ -54,7 +72,47 @@ const Profile = () => {
     })
   }
 
-  if (!mounted) return null
+  const addHobby = () => {
+    if (newHobby.trim() && !formData.hobbies.includes(newHobby.trim())) {
+      setFormData({
+        ...formData,
+        hobbies: [...formData.hobbies, newHobby.trim()],
+      })
+      setNewHobby("")
+    }
+  }
+
+  const removeHobby = (hobby: string) => {
+    setFormData({
+      ...formData,
+      hobbies: formData.hobbies.filter((h) => h !== hobby),
+    })
+  }
+
+  const addLanguage = () => {
+    if (
+      newLanguage.trim() &&
+      !formData.languages.includes(newLanguage.trim())
+    ) {
+      setFormData({
+        ...formData,
+        languages: [...formData.languages, newLanguage.trim()],
+      })
+      setNewLanguage("")
+    }
+  }
+
+  const removeLanguage = (language: string) => {
+    setFormData({
+      ...formData,
+      languages: formData.languages.filter((l) => l !== language),
+    })
+  }
+
+  const selectAvatar = (avatar: string) => {
+    setFormData({ ...formData, avatar })
+    setShowAvatarDialog(false)
+  }
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -79,10 +137,50 @@ const Profile = () => {
           </CardHeader>
 
           <CardContent className="space-y-6">
+            {/* Profile Header */}
             <div className="flex items-center gap-4">
-              <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="h-10 w-10 text-primary" />
-              </div>
+              <Dialog
+                open={showAvatarDialog}
+                onOpenChange={setShowAvatarDialog}
+              >
+                <DialogTrigger asChild>
+                  <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity">
+                    {(isEditing ? formData.avatar : user?.avatar) ? (
+                      <img
+                        src={isEditing ? formData.avatar : user?.avatar}
+                        alt="Avatar"
+                        className="h-20 w-20 rounded-full"
+                      />
+                    ) : (
+                      <span className="text-primary text-2xl font-semibold">
+                        {getDefaultAvatar(user?.name || "")}
+                      </span>
+                    )}
+                  </div>
+                </DialogTrigger>
+                {isEditing && (
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Choose Avatar</DialogTitle>
+                    </DialogHeader>
+                    <div className="grid grid-cols-5 gap-4 py-4">
+                      {PRESET_AVATARS.map((avatar, index) => (
+                        <div
+                          key={index}
+                          className="h-16 w-16 rounded-full cursor-pointer hover:ring-2 ring-primary transition-all"
+                          onClick={() => selectAvatar(avatar)}
+                        >
+                          <img
+                            src={avatar}
+                            alt={`Avatar ${index + 1}`}
+                            className="h-16 w-16 rounded-full"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </DialogContent>
+                )}
+              </Dialog>
               <div className="flex-1">
                 {isEditing ? (
                   <div className="space-y-2">
@@ -107,6 +205,7 @@ const Profile = () => {
               </div>
             </div>
 
+            {/* Role */}
             <div className="space-y-2">
               <Label htmlFor="role" className="flex items-center gap-2">
                 <Briefcase className="h-4 w-4" />
@@ -128,6 +227,7 @@ const Profile = () => {
               )}
             </div>
 
+            {/* Bio */}
             <div className="space-y-2">
               <Label htmlFor="bio">Bio</Label>
               {isEditing ? (
@@ -147,6 +247,7 @@ const Profile = () => {
               )}
             </div>
 
+            {/* Skills */}
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
                 <GraduationCap className="h-4 w-4" />
@@ -191,6 +292,99 @@ const Profile = () => {
               </div>
             </div>
 
+            {/* Hobbies */}
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <Heart className="h-4 w-4" />
+                Hobbies
+              </Label>
+              {isEditing && (
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Add a hobby"
+                    value={newHobby}
+                    onChange={(e) => setNewHobby(e.target.value)}
+                    onKeyPress={(e) =>
+                      e.key === "Enter" && (e.preventDefault(), addHobby())
+                    }
+                  />
+                  <Button type="button" size="icon" onClick={addHobby}>
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+              <div className="flex flex-wrap gap-2">
+                {(isEditing ? formData.hobbies : user?.hobbies || []).map(
+                  (hobby) => (
+                    <Badge key={hobby} variant="outline" className="gap-1">
+                      {hobby}
+                      {isEditing && (
+                        <button
+                          onClick={() => removeHobby(hobby)}
+                          className="ml-1 hover:text-destructive"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      )}
+                    </Badge>
+                  )
+                )}
+                {!isEditing &&
+                  (!user?.hobbies || user.hobbies.length === 0) && (
+                    <p className="text-sm text-muted-foreground">
+                      No hobbies added yet
+                    </p>
+                  )}
+              </div>
+            </div>
+
+            {/* Languages */}
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <Languages className="h-4 w-4" />
+                Languages
+              </Label>
+              {isEditing && (
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Add a language"
+                    value={newLanguage}
+                    onChange={(e) => setNewLanguage(e.target.value)}
+                    onKeyPress={(e) =>
+                      e.key === "Enter" && (e.preventDefault(), addLanguage())
+                    }
+                  />
+                  <Button type="button" size="icon" onClick={addLanguage}>
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+              <div className="flex flex-wrap gap-2">
+                {(isEditing ? formData.languages : user?.languages || []).map(
+                  (language) => (
+                    <Badge key={language} variant="outline" className="gap-1">
+                      {language}
+                      {isEditing && (
+                        <button
+                          onClick={() => removeLanguage(language)}
+                          className="ml-1 hover:text-destructive"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      )}
+                    </Badge>
+                  )
+                )}
+                {!isEditing &&
+                  (!user?.languages || user.languages.length === 0) && (
+                    <p className="text-sm text-muted-foreground">
+                      No languages added yet
+                    </p>
+                  )}
+              </div>
+            </div>
+
+            {/* CV Generation Placeholder */}
             {!isEditing && (
               <div className="pt-4 border-t">
                 <Button variant="outline" className="w-full" disabled>
