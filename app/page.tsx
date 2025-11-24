@@ -12,11 +12,11 @@ const Index = () => {
   const { user } = useAuth()
   const router = useRouter()
 
-  // useEffect(() => {
-  //   if (user) {
-  //     router.push("/feed")
-  //   }
-  // }, [user])
+  useEffect(() => {
+    if (user) {
+      router.push("/feed")
+    }
+  }, [user])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">

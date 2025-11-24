@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/Tooltip"
 import { AuthProvider } from "@/context/AuthContext"
 import { Toaster } from "@/components/ui/Toaster"
 import { Toaster as Sonner } from "@/components/ui/Sonner"
+import { Suspense } from "react"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,13 +25,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="w-screen h-screen">
       <body className={`${geistSans.variable} antialiased h-full`}>
-        <TooltipProvider>
-          <AuthProvider>
-            <Toaster />
-            <Sonner />
-            <Providers>{children}</Providers>
-          </AuthProvider>
-        </TooltipProvider>
+        <Suspense>
+          <TooltipProvider>
+            <AuthProvider>
+              <Toaster />
+              <Sonner />
+              <Providers>{children}</Providers>
+            </AuthProvider>
+          </TooltipProvider>
+        </Suspense>
       </body>
     </html>
   )

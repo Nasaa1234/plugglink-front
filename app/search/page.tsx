@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs"
 import { User } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 
-const Search = () => {
+const SearchPage = () => {
   const searchParams = useSearchParams()
   const query = searchParams.get("q") || ""
   const router = useRouter()
@@ -123,4 +123,4 @@ const Search = () => {
   )
 }
 
-export default Search
+export default SearchPage
