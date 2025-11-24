@@ -130,7 +130,10 @@ export const MOCK_USERS = [
     role: "Product Manager",
     bio: "Product leader with 8 years of experience building B2B SaaS products",
     skills: ["Product Strategy", "User Research", "Agile", "Data Analysis"],
+    hobbies: ["Reading", "Hiking", "Photography"],
+    languages: ["English", "Mandarin"],
     followers: 1234,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
   },
   {
     id: "3",
@@ -138,7 +141,10 @@ export const MOCK_USERS = [
     role: "Software Engineer",
     bio: "Full-stack developer | React & Node.js enthusiast | Open source contributor",
     skills: ["React", "TypeScript", "Node.js", "PostgreSQL"],
+    hobbies: ["Gaming", "Coding", "Coffee"],
+    languages: ["English", "Hindi"],
     followers: 3421,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
   },
   {
     id: "4",
@@ -146,7 +152,10 @@ export const MOCK_USERS = [
     role: "Data Scientist",
     bio: "ML Engineer at TechCorp | PhD in Computer Science",
     skills: ["Machine Learning", "Python", "TensorFlow", "Computer Vision"],
+    hobbies: ["Running", "Painting", "Travel"],
+    languages: ["English", "Spanish"],
     followers: 2156,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily",
   },
   {
     id: "5",
@@ -154,25 +163,9 @@ export const MOCK_USERS = [
     role: "Marketing",
     bio: "Growth marketer | Helped 5 startups reach PMF",
     skills: ["Growth Marketing", "SEO", "Content Strategy", "Analytics"],
+    hobbies: ["Writing", "Music", "Cooking"],
+    languages: ["English", "Korean"],
     followers: 892,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
   },
 ]
-
-
-// see the followed users(left bar bottom the filter section)
-//chhange the cretea post button it is like your feed section(like fb post )
-// click the post and see the detail and apply button(see the comment in post detail)
-// and change the profile sectoin like my user data
-// profile picture is 10 customize image in internet user can choose the random. defultis users first letter 
-// signup section has repeat password
-//if i apply user see the applied user and approve or reject system
-// add about us page in left bar bottom
-
-  // id: string
-  // name: string
-  // email: string
-  // bio?: string
-  // skills?: string[]
-  // hobbies?: string[]
-  // languages?: string[]
-  // followers userId[]
