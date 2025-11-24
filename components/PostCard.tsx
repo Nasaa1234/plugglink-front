@@ -146,7 +146,6 @@ export const PostCard = ({ post, onUpdate }: PostCardProps) => {
             variant={hasRequested ? "outline" : "default"}
             size="sm"
             onClick={handleRequest}
-            disabled={hasRequested}
             className="w-full"
           >
             <Briefcase className="h-4 w-4 mr-2" />
