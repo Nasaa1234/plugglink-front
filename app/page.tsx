@@ -1,65 +1,90 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/context/AuthContext"
+import { Button } from "@/components/Button"
+import { ArrowRight, Users, Briefcase, TrendingUp } from "lucide-react"
+import Image from "next/image"
+
+const IndexPage = () => {
+  const { user } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    // if (user) {
+    //   router.replace("/feed") // replace avoids keeping this page in history
+    // }
+  }, [user, router])
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
+      <header className="container mx-auto px-4 py-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Image src="/logo.svg" alt="Logo" width={96} height={32} />
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" onClick={() => router.push("/login")}>
+              Login
+            </Button>
+            <Button onClick={() => router.push("/signup")}>Get Started</Button>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      <section className="container mx-auto px-4 py-20 text-center">
+        <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          Connect. Collaborate. Create.
+        </h1>
+        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          The professional networking platform that connects students and
+          professionals through meaningful career-focused interactions.
+        </p>
+        <Button
+          size="lg"
+          onClick={() => router.push("/signup")}
+          className="gap-2"
+        >
+          Join PluggLink <ArrowRight className="h-4 w-4" />
+        </Button>
+      </section>
+
+      <section className="container mx-auto px-4 py-20">
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-card p-6 rounded-lg border text-center">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <Users className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">Build Your Network</h3>
+            <p className="text-muted-foreground">
+              Connect with students and professionals in your field
+            </p>
+          </div>
+          <div className="bg-card p-6 rounded-lg border text-center">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <Briefcase className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">
+              Discover Opportunities
+            </h3>
+            <p className="text-muted-foreground">
+              Find internships, jobs, and collaboration opportunities
+            </p>
+          </div>
+          <div className="bg-card p-6 rounded-lg border text-center">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <TrendingUp className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">Showcase Your Skills</h3>
+            <p className="text-muted-foreground">
+              Build your professional profile and generate your CV
+            </p>
+          </div>
         </div>
-      </main>
+      </section>
     </div>
-  );
+  )
 }
+
+export default IndexPage
