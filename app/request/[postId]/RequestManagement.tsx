@@ -16,7 +16,6 @@ interface RequestManagementProps {
 
 export default function RequestManagement({ postId }: RequestManagementProps) {
   const { toast } = useToast()
-  console.log(postId)
   const router = useRouter()
   const [post, setPost] = useState<Post | undefined>(
     MOCK_POSTS.find((p) => p.id === postId)
@@ -51,7 +50,7 @@ export default function RequestManagement({ postId }: RequestManagementProps) {
 
     toast({
       title: status === "accepted" ? "Request accepted" : "Request rejected",
-      description: `You have ${status} the request.`,
+      description: `You have ${status} the request and notified the user.`,
     })
   }
 

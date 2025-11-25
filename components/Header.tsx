@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/DropdownMenu"
 import Image from "next/image"
+import { NotificationDropdown } from "./NotificationDropDown"
 
 export const Header = () => {
   const { user, logout } = useAuth()
@@ -85,6 +86,7 @@ export const Header = () => {
               >
                 Create Post
               </Button>
+              <NotificationDropdown />
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

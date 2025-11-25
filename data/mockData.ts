@@ -14,6 +14,37 @@ export interface PostRequest {
   createdAt: string
 }
 
+export const MOCK_REQUESTS: PostRequest[] = [
+  {
+    userId: "3",
+    userName: "Alex Kumar",
+    userRole: "Software Engineer",
+    status: "pending",
+    createdAt: "2024-01-16T09:00:00Z",
+  },
+  {
+    userId: "4",
+    userName: "Emily Rodriguez",
+    userRole: "Data Scientist",
+    status: "accepted",
+    createdAt: "2024-01-15T17:45:00Z",
+  },
+  {
+    userId: "5",
+    userName: "Michael Park",
+    userRole: "Marketing",
+    status: "rejected",
+    createdAt: "2024-01-14T13:20:00Z",
+  },
+  {
+    userId: "2",
+    userName: "Sarah Chen",
+    userRole: "Product Manager",
+    status: "pending",
+    createdAt: "2024-01-16T12:10:00Z",
+  },
+]
+
 export interface Post {
   id: string
   authorId: string
@@ -43,9 +74,9 @@ export const ROLES = [
 export const MOCK_POSTS: Post[] = [
   {
     id: "1",
-    authorId: "2",
-    authorName: "Sarah Chen",
-    authorRole: "Product Manager",
+    authorId: "1",
+    authorName: "Demo User",
+    authorRole: "Software Engineer",
     title: "Looking for UX Designer for a SaaS startup",
     description:
       "We are building an AI-powered analytics platform and looking for a talented UX designer to join our team. Remote-friendly, competitive salary.",
@@ -61,7 +92,7 @@ export const MOCK_POSTS: Post[] = [
         createdAt: "2024-01-15T11:30:00Z",
       },
     ],
-    requests: [],
+    requests: MOCK_REQUESTS,
   },
   {
     id: "2",
@@ -169,3 +200,8 @@ export const MOCK_USERS = [
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
   },
 ]
+// see the followinf users in profile
+// add experieces education in profile
+// if the login ask the eroles like reddit
+//
+

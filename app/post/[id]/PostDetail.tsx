@@ -107,7 +107,6 @@ const PostDetail = ({ postId }: { postId: string }) => {
     })
   }
 
-  const userRoleMatchesPost = user?.role && post.roles.includes(user.role)
   const isAuthor = user?.id === post.authorId
   const hasRequested = user && post.requests.some((r) => r.userId === user.id)
 
@@ -166,7 +165,7 @@ const PostDetail = ({ postId }: { postId: string }) => {
               ))}
             </div>
 
-            {!isAuthor && user && userRoleMatchesPost && (
+            {!isAuthor && user && (
               <Button
                 variant={hasRequested ? "outline" : "default"}
                 size="lg"

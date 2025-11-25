@@ -7,6 +7,7 @@ import { AuthProvider } from "@/context/AuthContext"
 import { Toaster } from "@/components/ui/Toaster"
 import { Toaster as Sonner } from "@/components/ui/Sonner"
 import { Suspense } from "react"
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -19,21 +20,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en" className="w-screen h-screen">
       <body className={`${geistSans.variable} antialiased h-full`}>
-        <Suspense>
-          <TooltipProvider>
-            <AuthProvider>
-              <Toaster />
-              <Sonner />
-              <Providers>{children}</Providers>
-            </AuthProvider>
-          </TooltipProvider>
-        </Suspense>
+        <AuthProvider>
+          <Suspense>
+            <Providers>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                {children}
+              </TooltipProvider>
+            </Providers>
+          </Suspense>
+        </AuthProvider>
       </body>
     </html>
   )

@@ -1,4 +1,3 @@
-// Preset avatar options for users
 export const PRESET_AVATARS = [
   "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
   "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",

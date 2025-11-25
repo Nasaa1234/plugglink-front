@@ -1,43 +1,57 @@
 "use client"
 
-import { useLazyQuery } from "@apollo/client/react"
+import { useQuery } from "@apollo/client/react"
 import { GET_ALL_USERS } from "../graphql"
+import { Header } from "@/components/Header"
+import { UserCard } from "@/components/UserCard"
 
 interface User {
   id: string
   name: string
-  email: string
   bio?: string
   skills?: string[]
-  hobbies?: string[]
-  languages?: string[]
 }
 
 interface GetAllUsersData {
   getAllUsers: User[]
 }
 
-export default function LogUsersButton() {
-  const [getAllUsers, { data, loading, error }] =
-    useLazyQuery<GetAllUsersData>(GET_ALL_USERS)
+export default function UsersPage() {
+  const { data, loading, error } = useQuery<GetAllUsersData>(GET_ALL_USERS)
 
-  const handleClick = async () => {
-    try {
-      const result = await getAllUsers()
-      console.log(result.data?.getAllUsers ?? [])
-    } catch (err) {
-      console.error(err)
-      if (err) {
-        console.error("Apollo Error:")
-      }
-    }
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-muted/30">
+        <Header />
+        <div className="container mx-auto py-6 px-4 text-center">
+          <p>Loading users...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-muted/30">
+        <Header />
+        <div className="container mx-auto py-6 px-4 text-center">
+          <p>Error loading users. Please try again later.</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div>
-      <button onClick={handleClick}>Log All Users</button>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+    <div className="min-h-screen bg-muted/30">
+      <Header />
+      <div className="container mx-auto py-6 px-4">
+        <h1 className="text-2xl font-bold mb-6">All Users</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data?.getAllUsers.map((user) => (
+            <UserCard key={user.id} user={user} />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

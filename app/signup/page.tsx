@@ -44,9 +44,9 @@ const Signup = () => {
       await signup(email, password, name)
       toast({
         title: "Account created!",
-        description: "Welcome to ConnectPro.",
+        description: "Let's complete your profile",
       })
-      router.push("/")
+      router.push("/onBoarding")
     } catch (error) {
       toast({
         variant: "destructive",

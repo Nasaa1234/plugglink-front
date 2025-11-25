@@ -2,6 +2,17 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react"
 
+export interface Notification {
+  id: string
+  userId: string
+  type: "request_accepted" | "request_rejected"
+  message: string
+  postId: string
+  postTitle: string
+  read: boolean
+  createdAt: Date
+}
+
 export interface User {
   id: string
   email: string
@@ -37,6 +48,13 @@ interface AuthContextType {
   updateProfile: (updates: Partial<User>) => void
   isFollowing: (userId: string) => boolean
   toggleFollow: (userId: string) => void
+  notifications: Notification[]
+  addNotification: (
+    notification: Omit<Notification, "id" | "createdAt">
+  ) => void
+  markNotificationAsRead: (notificationId: string) => void
+  markAllNotificationsAsRead: () => void
+  unreadCount: number
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -58,13 +76,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null)
+  const [notifications, setNotifications] = useState<Notification[]>([])
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("currentUser")
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
+    if (typeof window !== "undefined") {
+      const savedUser = localStorage.getItem("currentUser")
+      if (savedUser) setUser(JSON.parse(savedUser))
+
+      const savedNotifications = localStorage.getItem("notifications")
+      if (savedNotifications) setNotifications(JSON.parse(savedNotifications))
     }
   }, [])
+
+  useEffect(() => {
+    localStorage.setItem("notifications", JSON.stringify(notifications))
+  }, [notifications])
 
   const login = async (email: string, password: string) => {
     // Mock login - find user or use demo user
@@ -115,6 +141,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     updateProfile({ following: newFollowing })
   }
 
+  const addNotification = (
+    notification: Omit<Notification, "id" | "createdAt">
+  ) => {
+    const newNotification: Notification = {
+      ...notification,
+      id: Date.now().toString(),
+      createdAt: new Date(),
+    }
+    setNotifications((prev) => [newNotification, ...prev])
+  }
+
+  const markNotificationAsRead = (notificationId: string) => {
+    setNotifications((prev) =>
+      prev.map((notif) =>
+        notif.id === notificationId ? { ...notif, read: true } : notif
+      )
+    )
+  }
+
+  const markAllNotificationsAsRead = () => {
+    setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })))
+  }
+
+  const unreadCount = notifications.filter((notif) => !notif.read).length
+
   return (
     <AuthContext.Provider
       value={{
@@ -125,6 +176,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         updateProfile,
         isFollowing,
         toggleFollow,
+        notifications,
+        addNotification,
+        markNotificationAsRead,
+        markAllNotificationsAsRead,
+        unreadCount,
       }}
     >
       {children}
