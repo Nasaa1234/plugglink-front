@@ -55,6 +55,7 @@ export interface Post {
   description: string
   roles: string[]
   createdAt: string
+  likedBy: string[]
   likes: number
   comments: Comment[]
   requests: PostRequest[]
@@ -83,6 +84,7 @@ export const MOCK_POSTS: Post[] = [
     roles: ["Designer", "Entrepreneur"],
     createdAt: "2024-01-15T10:30:00Z",
     likes: 24,
+    likedBy: [],
     comments: [
       {
         id: "c1",
@@ -105,6 +107,7 @@ export const MOCK_POSTS: Post[] = [
     roles: ["Software Engineer", "Student"],
     createdAt: "2024-01-14T15:20:00Z",
     likes: 156,
+    likedBy: [],
     comments: [
       {
         id: "c2",
@@ -127,6 +130,7 @@ export const MOCK_POSTS: Post[] = [
     roles: ["Data Scientist", "Student"],
     createdAt: "2024-01-13T09:15:00Z",
     likes: 89,
+    likedBy: [],
     comments: [],
     requests: [],
   },
@@ -141,6 +145,7 @@ export const MOCK_POSTS: Post[] = [
     roles: ["Marketing", "Entrepreneur"],
     createdAt: "2024-01-12T14:45:00Z",
     likes: 203,
+    likedBy: [],
     comments: [
       {
         id: "c3",
@@ -165,6 +170,38 @@ export const MOCK_USERS = [
     languages: ["English", "Mandarin"],
     followers: 1234,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+    experience: [
+      {
+        position: "Senior Product Manager",
+        company: "TechFlow Inc",
+        startDate: "2020",
+        endDate: null,
+        description: "Leading product strategy for B2B analytics platform",
+      },
+      {
+        position: "Product Manager",
+        company: "StartupCo",
+        startDate: "2016",
+        endDate: "2020",
+        description: "Built and launched 3 major product features",
+      },
+    ],
+    education: [
+      {
+        degree: "MBA",
+        field: "Business Administration",
+        school: "Stanford University",
+        startYear: "2014",
+        endYear: "2016",
+      },
+      {
+        degree: "BS",
+        field: "Computer Science",
+        school: "UC Berkeley",
+        startYear: "2010",
+        endYear: "2014",
+      },
+    ],
   },
   {
     id: "3",
@@ -176,6 +213,24 @@ export const MOCK_USERS = [
     languages: ["English", "Hindi"],
     followers: 3421,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    experience: [
+      {
+        position: "Senior Software Engineer",
+        company: "Google",
+        startDate: "2021",
+        endDate: null,
+        description: "Working on cloud infrastructure and microservices",
+      },
+    ],
+    education: [
+      {
+        degree: "BS",
+        field: "Software Engineering",
+        school: "MIT",
+        startYear: "2017",
+        endYear: "2021",
+      },
+    ],
   },
   {
     id: "4",
@@ -187,6 +242,31 @@ export const MOCK_USERS = [
     languages: ["English", "Spanish"],
     followers: 2156,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily",
+    experience: [
+      {
+        position: "ML Engineer",
+        company: "TechCorp",
+        startDate: "2022",
+        endDate: null,
+        description: "Developing computer vision models for autonomous systems",
+      },
+    ],
+    education: [
+      {
+        degree: "PhD",
+        field: "Computer Science",
+        school: "Carnegie Mellon University",
+        startYear: "2018",
+        endYear: "2022",
+      },
+      {
+        degree: "BS",
+        field: "Computer Science",
+        school: "UCLA",
+        startYear: "2014",
+        endYear: "2018",
+      },
+    ],
   },
   {
     id: "5",
@@ -198,10 +278,27 @@ export const MOCK_USERS = [
     languages: ["English", "Korean"],
     followers: 892,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
+    experience: [
+      {
+        position: "Head of Growth",
+        company: "GrowthLab",
+        startDate: "2020",
+        endDate: null,
+        description: "Led marketing strategy for 5 successful startups",
+      },
+    ],
+    education: [
+      {
+        degree: "BA",
+        field: "Marketing",
+        school: "NYU",
+        startYear: "2016",
+        endYear: "2020",
+      },
+    ],
   },
 ]
 // see the followinf users in profile
 // add experieces education in profile
 // if the login ask the eroles like reddit
 //
-

@@ -27,8 +27,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog"
+import { useRouter } from "next/navigation"
 
 const Profile = () => {
+  const router = useRouter()
   const { user, updateProfile } = useAuth()
   const { toast } = useToast()
   const [isEditing, setIsEditing] = useState(false)
@@ -387,8 +389,12 @@ const Profile = () => {
             {/* CV Generation Placeholder */}
             {!isEditing && (
               <div className="pt-4 border-t">
-                <Button variant="outline" className="w-full" disabled>
-                  Generate CV (Coming Soon)
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => router.push("/cv")}
+                >
+                  View Your CV
                 </Button>
               </div>
             )}

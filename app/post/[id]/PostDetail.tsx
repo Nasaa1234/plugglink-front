@@ -107,9 +107,29 @@ const PostDetail = ({ postId }: { postId: string }) => {
     })
   }
 
+  const handleLike = () => {
+    if (!user) {
+      toast({
+        title: "Login required",
+        description: "Please login to like posts.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    const isLiked = post.likedBy.includes(user.id)
+    setPost({
+      ...post,
+      likes: isLiked ? post.likes - 1 : post.likes + 1,
+      likedBy: isLiked
+        ? post.likedBy.filter((id) => id !== user.id)
+        : [...post.likedBy, user.id],
+    })
+  }
+
   const isAuthor = user?.id === post.authorId
   const hasRequested = user && post.requests.some((r) => r.userId === user.id)
-
+  const isLiked = user && post.likedBy.includes(user.id)
   return (
     <div className="min-h-screen bg-muted/30">
       <Header />
@@ -180,7 +200,7 @@ const PostDetail = ({ postId }: { postId: string }) => {
             {isAuthor && post.requests.length > 0 && (
               <Button
                 variant="outline"
-                onClick={() => router.push(`/requests/${post.id}`)}
+                onClick={() => router.push(`/request/${post.id}`)}
                 className="w-full"
               >
                 View Requests ({post.requests.length})
@@ -188,8 +208,17 @@ const PostDetail = ({ postId }: { postId: string }) => {
             )}
 
             <div className="flex items-center gap-4 pt-2 border-t">
-              <Button variant="ghost" size="sm" className="gap-2">
-                <Heart className="h-4 w-4" />
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-2"
+                onClick={handleLike}
+              >
+                <Heart
+                  className={`h-4 w-4 ${
+                    isLiked ? "fill-red-500 text-red-500" : ""
+                  }`}
+                />
                 <span>{post.likes}</span>
               </Button>
               <Button variant="ghost" size="sm" className="gap-2">

@@ -5,7 +5,17 @@ import { MOCK_USERS, MOCK_POSTS } from "@/data/mockData"
 import { Card, CardContent } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { Badge } from "@/components/ui/Badge"
-import { Briefcase } from "lucide-react"
+import { Separator } from "@/components/ui/Separator"
+import {
+  User,
+  Mail,
+  Briefcase,
+  FileText,
+  GraduationCap,
+  Code,
+  Heart,
+  Globe,
+} from "lucide-react"
 import { useState, useEffect } from "react"
 import { getDefaultAvatar } from "@/data/avatars"
 import { useRouter } from "next/navigation"
@@ -122,7 +132,116 @@ const UserProfile = ({ userId }: { userId: string }) => {
             </div>
           </CardContent>
         </Card>
+        {/* CV Section */}
+        {(profileUser?.experience || profileUser.education) && (
+          <Card className="mb-6">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Curriculum Vitae
+                </h2>
+              </div>
 
+              <div className="space-y-6">
+                {/* Experience */}
+                {profileUser.experience &&
+                  profileUser.experience.length > 0 && (
+                    <div>
+                      <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                        <Briefcase className="h-4 w-4" />
+                        Work Experience
+                      </h3>
+                      <div className="space-y-4">
+                        {profileUser.experience.map((exp, index) => (
+                          <div
+                            key={index}
+                            className="border-l-2 border-primary pl-4"
+                          >
+                            <h4 className="font-semibold">{exp.position}</h4>
+                            <p className="text-muted-foreground text-sm">
+                              {exp.company}
+                            </p>
+                            <p className="text-xs text-muted-foreground mb-2">
+                              {exp.startDate} - {exp.endDate || "Present"}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {exp.description}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                {/* Education */}
+                {profileUser.education && profileUser.education.length > 0 && (
+                  <div>
+                    <Separator className="my-4" />
+                    <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                      <GraduationCap className="h-4 w-4" />
+                      Education
+                    </h3>
+                    <div className="space-y-4">
+                      {profileUser.education.map((edu, index) => (
+                        <div
+                          key={index}
+                          className="border-l-2 border-primary pl-4"
+                        >
+                          <h4 className="font-semibold">
+                            {edu.degree} in {edu.field}
+                          </h4>
+                          <p className="text-muted-foreground text-sm">
+                            {edu.school}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {edu.startYear} - {edu.endYear || "Present"}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Languages */}
+                {profileUser.languages && profileUser.languages.length > 0 && (
+                  <div>
+                    <Separator className="my-4" />
+                    <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                      <Globe className="h-4 w-4" />
+                      Languages
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {profileUser.languages.map((language, index) => (
+                        <Badge key={index} variant="secondary">
+                          {language}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Hobbies */}
+                {profileUser.hobbies && profileUser.hobbies.length > 0 && (
+                  <div>
+                    <Separator className="my-4" />
+                    <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                      <Heart className="h-4 w-4" />
+                      Interests & Hobbies
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {profileUser.hobbies.map((hobby, index) => (
+                        <Badge key={index} variant="outline">
+                          {hobby}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
         <div className="space-y-4">
           <h2 className="text-xl font-bold">Posts by {profileUser.name}</h2>
           {userPosts.length === 0 ? (

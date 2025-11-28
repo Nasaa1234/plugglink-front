@@ -109,6 +109,7 @@ import { useAuth } from "@/context/AuthContext"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
+import { Chrome } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -148,6 +149,12 @@ export default function Login() {
       setLoading(false)
     }
   }
+  const handleGoogleLogin = () => {
+    toast({
+      title: "Coming Soon",
+      description: "Google authentication will be available soon.",
+    })
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
@@ -159,6 +166,22 @@ export default function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full mb-4"
+            onClick={handleGoogleLogin}
+          >
+            <Chrome className="h-4 w-4 mr-2" />
+            Continue with Google
+          </Button>
+
+          <div className="relative mb-4">
+            <Separator />
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
+              or
+            </span>
+          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>

@@ -95,6 +95,31 @@ export const PostCard = ({ post, onUpdate }: PostCardProps) => {
   const hasRequested =
     user && localPost.requests.some((r) => r.userId === user.id)
 
+  const handleLike = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!user) {
+      toast({
+        title: "Login required",
+        description: "Please login to like posts.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    const isLiked = localPost.likedBy.includes(user.id)
+    const updatedPost = {
+      ...localPost,
+      likes: isLiked ? localPost.likes - 1 : localPost.likes + 1,
+      likedBy: isLiked
+        ? localPost.likedBy.filter((id) => id !== user.id)
+        : [...localPost.likedBy, user.id],
+    }
+
+    setLocalPost(updatedPost)
+  }
+
+  const isLiked = user && localPost.likedBy.includes(user.id)
+
   return (
     <Card
       className="hover:shadow-md transition-shadow cursor-pointer"
@@ -158,9 +183,13 @@ export const PostCard = ({ post, onUpdate }: PostCardProps) => {
             variant="ghost"
             size="sm"
             className="gap-2"
-            onClick={(e) => e.stopPropagation()}
+            onClick={handleLike}
           >
-            <Heart className="h-4 w-4" />
+            <Heart
+              className={`h-4 w-4 ${
+                isLiked ? "fill-red-500 text-red-500" : ""
+              }`}
+            />
             <span>{localPost.likes}</span>
           </Button>
           <Button
