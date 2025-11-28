@@ -118,6 +118,7 @@ import {
   CardTitle,
 } from "@/components/ui/Card"
 import { useToast } from "@/hooks/useToast"
+import { Separator } from "@/components/ui/Separator"
 
 export default function Login() {
   const [email, setEmail] = useState("")
