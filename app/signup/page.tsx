@@ -15,7 +15,7 @@ import {
 import { useToast } from "@/hooks/useToast"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Chrome, Phone } from "lucide-react"
+import { Chrome } from "lucide-react"
 import { Separator } from "@/components/ui/Separator"
 
 const Signup = () => {
@@ -23,7 +23,7 @@ const Signup = () => {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [name, setName] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
+
   const [loading, setLoading] = useState(false)
   const { signup } = useAuth()
   const { toast } = useToast()
@@ -47,9 +47,9 @@ const Signup = () => {
       await signup(email, password, name)
       toast({
         title: "Account created!",
-        description: "Let's complete your profile",
+        description: "Let's verify you phone number",
       })
-      router.push("/onBoarding")
+      router.push("/verify-phone")
     } catch (error) {
       toast({
         variant: "destructive",
@@ -68,20 +68,6 @@ const Signup = () => {
     })
   }
 
-  const handlePhoneSignup = () => {
-    if (!phoneNumber) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please enter your phone number.",
-      })
-      return
-    }
-    toast({
-      title: "Coming Soon",
-      description: "Phone authentication will be available soon.",
-    })
-  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
       <Card className="w-full max-w-md">
@@ -94,46 +80,6 @@ const Signup = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full mb-3"
-            onClick={handleGoogleSignup}
-          >
-            <Chrome className="h-4 w-4 mr-2" />
-            Continue with Google
-          </Button>
-
-          <div className="space-y-3 mb-4">
-            <div className="flex gap-2">
-              <Input
-                type="tel"
-                placeholder="+1 234 567 8900"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="flex-1"
-              />
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handlePhoneSignup}
-              >
-                <Phone className="h-4 w-4 mr-2" />
-                Verify
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Enter phone number for SMS verification
-            </p>
-          </div>
-
-          <div className="relative mb-4">
-            <Separator />
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
-              or continue with email
-            </span>
-          </div>
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
@@ -181,7 +127,21 @@ const Signup = () => {
               {loading ? "Creating account..." : "Sign Up"}
             </Button>
           </form>
-
+          <div className="relative my-4">
+            <Separator />
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
+              or continue with google
+            </span>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full mb-3"
+            onClick={handleGoogleSignup}
+          >
+            <Chrome className="h-4 w-4 mr-2" />
+            Continue with Google
+          </Button>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
             <Link href="/login" className="text-primary hover:underline">
