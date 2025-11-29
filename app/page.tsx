@@ -21,6 +21,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/Carousel"
 import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
 
 const Index = () => {
   const { user } = useAuth()
@@ -95,68 +96,74 @@ const Index = () => {
       </header>
 
       <main>
-        {/* Hero Section */}
-        <section className="container py-20 md:py-32 text-center">
-          <div className="inline-block mb-4 px-4 py-2 bg-primary/10 rounded-full">
-            <span className="text-sm font-semibold text-primary">
-              Welcome to the Future of Networking
-            </span>
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Connect, Collaborate,
-            <br />
-            <span className="text-primary">Grow Together</span>
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of students and professionals building meaningful
-            connections. Discover opportunities, showcase your skills, and
-            accelerate your career growth on the platform designed for modern
-            networking.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              onClick={() => router.push("/signup")}
-              className="gap-2"
-            >
-              Start Your Journey
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => router.push("/about")}
-            >
-              Learn More
-            </Button>
-          </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <section className="container py-20 md:py-32 text-center">
+            <div className="inline-block mb-4 px-4 py-2 bg-primary/10 rounded-full">
+              <span className="text-sm font-semibold text-primary">
+                Welcome to the Future of Networking
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              Connect, Collaborate,
+              <br />
+              <span className="text-primary">Grow Together</span>
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+              Join thousands of students and professionals building meaningful
+              connections. Discover opportunities, showcase your skills, and
+              accelerate your career growth on the platform designed for modern
+              networking.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                onClick={() => router.push("/signup")}
+                className="gap-2"
+              >
+                Start Your Journey
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => router.push("/about")}
+              >
+                Learn More
+              </Button>
+            </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16 pt-16 border-t">
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                10K+
+            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16 pt-16 border-t">
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                  10K+
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Active Users
+                </div>
               </div>
-              <div className="text-sm text-muted-foreground">Active Users</div>
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                  5K+
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Opportunities Posted
+                </div>
+              </div>
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                  95%
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Success Rate
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                5K+
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Opportunities Posted
-              </div>
-            </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                95%
-              </div>
-              <div className="text-sm text-muted-foreground">Success Rate</div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Section */}
+          </section>
+        </motion.div>
         <section className="container py-16">
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-bold mb-4">
@@ -210,7 +217,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Advanced Features */}
         <section className="bg-muted/30 py-16">
           <div className="container">
             <div className="text-center mb-12">
@@ -242,7 +248,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Testimonials Carousel */}
         <section className="container py-16">
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-bold mb-4">
@@ -263,7 +268,7 @@ const Index = () => {
                         <CheckCircle className="h-12 w-12 text-primary" />
                       </div>
                       <p className="text-lg md:text-xl mb-6 italic">
-                        "{testimonial.quote}"
+                        &quot;{testimonial.quote}&quot;
                       </p>
                       <div className="font-semibold">{testimonial.author}</div>
                       <div className="text-sm text-muted-foreground">
@@ -279,7 +284,6 @@ const Index = () => {
           </Carousel>
         </section>
 
-        {/* CTA Section */}
         <section className="container py-16 text-center">
           <Card className="max-w-3xl mx-auto bg-gradient-to-br from-primary/10 to-accent/10 border-2">
             <CardContent className="p-12">

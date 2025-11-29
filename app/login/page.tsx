@@ -167,22 +167,6 @@ export default function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full mb-4"
-            onClick={handleGoogleLogin}
-          >
-            <Chrome className="h-4 w-4 mr-2" />
-            Continue with Google
-          </Button>
-
-          <div className="relative mb-4">
-            <Separator />
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
-              or
-            </span>
-          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -212,6 +196,22 @@ export default function Login() {
             </Button>
           </form>
 
+          <div className="relative my-5">
+            <Separator />
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
+              or
+            </span>
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full mb-4"
+            onClick={handleGoogleLogin}
+          >
+            <Chrome className="h-4 w-4 mr-2" />
+            Continue with Google
+          </Button>
           <div className="mt-4 text-center text-sm">
             Don’t have an account?{" "}
             <Link href="/signup" className="text-primary hover:underline">
